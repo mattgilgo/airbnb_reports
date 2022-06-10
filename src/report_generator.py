@@ -20,5 +20,6 @@ warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 
 class AnalyticReport:
 
-    def __init__(self, ):
+    def __init__(self, lat: float, lng: float):
         return
+        
