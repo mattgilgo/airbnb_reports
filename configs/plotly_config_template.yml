@@ -1,0 +1,17 @@
+OBJECT: # Plot Object
+  DATA: # Each one is a overlaid plot on plot object
+    0:  # First plot on object
+      X:  # X-axis points (4 in example)
+        0:
+        1:
+        2:
+        3:
+      Y:  # Y-axis points (4 in example)
+        0:
+        1:
+        2:
+        3:
+      TYPE: # Type of plot (bar, line, etc)
+      MARKER: # Attributes of points 
+        COLOR:  # Color of points
+      NAME: # Not sure yet but let's just say... Name
