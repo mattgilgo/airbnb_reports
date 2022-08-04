@@ -20,6 +20,16 @@
                 },
                 "name": "bar"
             }
+        },
+
+        "layout": {
+            "plot_background": "f3f6fa",
+            "margin": {
+                "t": 0,
+                "r": 0,
+                "l": 20,
+                "b": 30
+            }
         }
     }
 }
