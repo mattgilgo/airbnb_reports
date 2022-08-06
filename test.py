@@ -13,30 +13,34 @@ datasets = \
                     "plot_type": "choropleth",
                     "args": {
                         "title": "Total Price Changes W/W",
-                        "locations":'zipcode'
+                        "locations":'zipcode',
                         "color": "total_price_delta_pct",
                         "color_continuous_scale": "RdYlGn",
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa"
                     }
-                },
+                }
+        },      
+        
+        {
             "paths": "occupancy_by_zipcode_weekoverweek_deltas.parquet",
             "plots":
                 {
                     "plot_type": "choropleth",
                     "args": {
                         "title": "Occupancy Rate Changes W/W",
-                        "locations":'zipcode'
+                        "locations":'zipcode',
                         "color": "available_delta_pct",
                         "color_continuous_scale": "RdYlGn",
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa"
                     }
-                }
-            
-        },      {
+                }    
+        },      
+        
+        {
             "paths": "price_by_zipcode_and_dayofweek.parquet",
             "plots": 
                 {
@@ -48,7 +52,9 @@ datasets = \
                         "color": "zipcode"
                     }
                 },
-        }       {
+        },       
+        
+        {
             "paths": "occupancy_by_zipcode_and_dayofweek.parquet",
             "plots":
                 {
@@ -60,29 +66,70 @@ datasets = \
                         "color": "zipcode"
                     }
                 }
-                }
-            
-        },         {
+        },         
+        
+        {
             "paths": "price_by_zipcode.parquet",
-            "plots": [
-                {
+            "plots": {
                     "plot_type": "Table",
                     "args": {
+                        "title": "Recent Pricing Trends (%) (W/W)",
                         "columnwidth": 50,
                         "columnorder": [0,1,2,3,4],
                         "header": {
                             "height": 40,
-                            "values": [['<b>City</b>'], ['<b>Availability</b>'], ['<b>Check-in Availability</b>'], ['<b>Check-out Availability</b>'],['<b>Bookable</b>']]
+                            "values": [['<b>Zip Code</b>'], ['<b>Display Price</b>'], ['<b>Cleaning Fee</b>'], ['<b>Service Fee</b>'],['<b>Total Price</b>']],
                             "line": {
                                 "color": "rgb(50,50,50)"
-                            }
-                            "align": 'left'
+                            },
+                            "align": 'left',
                             "font": {
                                 "color": "rgb(45,45,45)",
                                 "size": 14
                             }
                         },
-                        "cells" {
+                        "cells": {
+                            "values": ["cities", "vals[0]", "vals[1]", "vals[2]", "vals[3]"],
+                            "line" : {
+                                "color": "#506784"
+                            },
+                            "align":"left",  
+                            "font": {
+                                "family": "Arial", 
+                                "size": 14, 
+                                "color":"conditional_red_or_green",
+                            },
+                            "format": ["None", ",.2f"],
+                            "height": 30,
+                            "fill": {
+                                "color":"rgb(245,245,245)"
+                            }
+                        }
+                    }
+            }
+        },         
+        
+        {
+            "paths": "occupancy_by_zipcode.parquet",
+            "plots": {
+                    "plot_type": "Table",
+                    "args": {
+                        "title": "Recent Occupancy Rate Trends (%) (W/W)",
+                        "columnwidth": 50,
+                        "columnorder": [0,1,2,3,4],
+                        "header": {
+                            "height": 40,
+                            "values": [['<b>City</b>'], ['<b>Availability</b>'], ['<b>Check-in Availability</b>'], ['<b>Check-out Availability</b>'],['<b>Bookable</b>']],
+                            "line": {
+                                "color": "rgb(50,50,50)"
+                            },
+                            "align": 'left',
+                            "font": {
+                                "color": "rgb(45,45,45)",
+                                "size": 14
+                            }
+                        },
+                        "cells": {
                             "values": ["cities", "vals[0]", "vals[1]", "vals[2]", "vals[3]"],
                             "line" : {
                                 "color": "#506784"
@@ -101,57 +148,16 @@ datasets = \
                         }
                     }
                 }
-            ]
-        },        {
-            "paths": "occupancy_by_zipcode.parquet",
-            "plots": [
-                {
-                    "plot_type": "bar",
-                    "args": {
-                        "title": "hello",
-                        "xlable": "some units"
-                    }
-                }
-            ]
-        },      {
-            "paths": "occupancy_by_zipcode_and_dayofweek.parquet",
-            "plots": [
-                {
-                    "plot_type": "choroplath",
-                    "args": {
-                        "title": "hello",
-                        "xlable": "some units",
-                        "zips": "33326",
-                        "figsize": 55
-                    }
-                },
-                {
-                    "plot_type": "bar",
-                    "args": {
-                        "title": "hello",
-                        "xlable": "some units"
-                    }
-                }
-            ]
-        },         {
-            "paths": "occupancy_by_guest_no.parquet",
-            "plots": [
-                {
-                    "plot_type": "bar",
-                    "args": {
-                        "title": "hello",
-                        "xlable": "some units"
-                    }
-                }
-            ]
-        },         {
+        },         
+        
+        {
             "paths": ["price_by_guest_no.parquet", "occupancy_by_guest_no.parquet"],
-            "plots": [
+            "plots":
                 {
                     "plot_type": "Figure",
                     "args": {
                         "data": {
-                            "traces": [
+                            "traces": [{
                                 "plot1": {
                                     "plot_type": "Bar",
                                     "title": "Total Price",
@@ -169,7 +175,8 @@ datasets = \
                                     "yaxis": "y2",
                                     "offsetgroup": 2
                                 }
-                            ],
+                            }]
+                        },
                         "layout": {
                                     'xaxis': {'title': '# of Guests'},
                                     'yaxis': {'title': 'Total Price'},
@@ -180,10 +187,9 @@ datasets = \
                         "location": ""
                     }
                 }
-            ]
-        }
     ]
 }
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -230,3 +236,6 @@ def func(x, y, **kwargs):
 
 
 """
+
+#def plot_builder(**kwargs):
+#    for k
