@@ -209,7 +209,13 @@ with urlopen('https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSO
     zipcodes = json.load(response)
 
 for dataset_config in datasets:
-    df = pd.read_parquet(dataset_config['path'])
+    dfs = []
+    df = None
+    for path in dataset_config["path"] :
+        df = pd.read_parquet(dataset_config['path'])
+        dfs = dfs.append[df]
+    if len(dfs) == 1:
+        df = dfs[0]
     for plot_config in dataset_config['plots']:
 
         if plot_config['plot_type'] == "line":
@@ -258,8 +264,28 @@ for dataset_config in datasets:
                               height = 30,
                               fill = dict(color='rgb(245,245,245)'))
                              )
-        elif plot_config['plot_type'] == "figure":
-            plt.figure(df, **plot_config['args'])
+        
+        elif plot_config['plot_type'] == "Figure":
+            for df in dfs:
+                
+            df_guests = df.groupby(['guest_no'])['median_total_price'].median().reset_index()
+            df_occ = df.groupby(['guest_no'])['occupancy_rate'].median().reset_index()
+
+            med_price_occ_by_guests = go.Figure(data=[
+                go.Bar(name='Total Price', x=df_guests['guest_no'], y=df_guests['median_total_price'], yaxis='y', offsetgroup=1),
+                go.Bar(name='Occupancy Rate', x=df_occ['guest_no'], y=df_occ['occupancy_rate'], yaxis='y2', offsetgroup=2),
+            ],
+                layout={
+                    'xaxis': {'title': '# of Guests'},
+                    'yaxis': {'title': 'Total Price'},
+                    'yaxis2': {'title': 'Occupancy Rate', 'overlaying': 'y', 'side': 'right'}
+                }
+            )
+
+            # Change the bar mode
+            med_price_occ_by_guests.update_layout(title_text='Median Price and Occupancy by # of Guests in '+location, barmode='group')
+            filename = "newsletter_features/"+location+"_median_price_and_occ_by_guestno_june19.png"
+            med_price_occ_by_guests.write_image(filename, engine='kaleido')
         else:
             print('Plot type not available in automated script at the moment.')
         
