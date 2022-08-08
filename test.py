@@ -18,7 +18,8 @@ datasets = \
                         "color_continuous_scale": "RdYlGn",
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
-                        "scope": "usa"
+                        "scope": "usa",
+                        "output_filename": "newsletter_features/total_price_weekly_changes.html"
                     }
                 }
         },      
@@ -35,7 +36,8 @@ datasets = \
                         "color_continuous_scale": "RdYlGn",
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
-                        "scope": "usa"
+                        "scope": "usa",
+                        "output_filename": "newsletter_features/occupancy_weekly_changes.html"
                     }
                 }    
         },      
@@ -49,7 +51,8 @@ datasets = \
                         "title": "Price Rate Changes W/W Monday-Sunday",
                         "x": "day_of_week",
                         "y": "total_price_delta_pct",
-                        "color": "zipcode"
+                        "color": "zipcode",
+                        "output_filename": "newsletter_features/total_price_weekly_changes_dow.html"
                     }
                 },
         },       
@@ -63,7 +66,8 @@ datasets = \
                         "title": "Occupancy Rate Changes W/W Monday-Sunday",
                         "x": "day_of_week",
                         "y": "available_delta_pct",
-                        "color": "zipcode"
+                        "color": "zipcode",
+                        "output_filename": "newsletter_features/occupancy_weekly_changes_dow.html"
                     }
                 }
         },         
@@ -193,14 +197,73 @@ datasets = \
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import plotly.express as px
+import json
+from urllib.request import urlopen
+
+#with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+#    counties = json.load(response)
+
+with urlopen('https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/fl_florida_zip_codes_geo.min.json') as response:
+    zipcodes = json.load(response)
 
 for dataset_config in datasets:
     df = pd.read_parquet(dataset_config['path'])
     for plot_config in dataset_config['plots']:
-        if plot_config['plot_type'] == "bar":
-            plt.bar(df, **plot_config['args'])
-        if plot_config['plot_type'] == "cloroplath":
-            plt.bar(df, **plot_config['args'])
+
+        if plot_config['plot_type'] == "line":
+            fig = px.line(df, 
+            x=plot_config['args']['day_of_week'], 
+            y=plot_config['args']['total_price_delta_pct'], 
+            color=plot_config['args']['zipcode']
+            )
+            fig.write_html(plot_config['args']['output_filename'])
+
+        elif plot_config['plot_type'] == "cloropleth":
+            fig = px.choropleth(df,
+            geojson=zipcodes,
+            locations=plot_config['args']['locations'],
+            color=plot_config['args']['color'],
+            color_continuous_scale=plot_config['args']['color_continuous_scale'],
+            featureidkey=plot_config['args']['properties.ZCTA5CE10'],
+            range_color=plot_config['args']['range_color'],
+            scope=plot_config['args']['scope']
+            )
+            fig.write_html(plot_config['args']['output_filename'])
+
+        elif plot_config['plot_type'] == "Table":
+            go.Table(
+                 columnwidth= [50]+[50]+[50]+[50]+[50],
+                 columnorder=[0, 1, 2, 3, 4],
+                 header = dict(height = 40,
+                               values = [['<b>Zip Code</b>'], ['<b>Monday</b>'],['<b>Tuesday</b>'],['<b>Wednesday</b>'],['<b>Thursday</b>'],['<b>Friday</b>'],['<b>Saturday</b>'],['<b>Sunday</b>']],
+                               line = dict(color='rgb(50,50,50)'),
+                               align = ['left']*5,
+                               font = dict(color=['rgb(45,45,45)']*4, size=14),
+                             
+                              ),
+                 cells = dict(values=[df['0'],
+                            df['1'],
+                            df['2'],
+                            df['3'],
+                            df['4'],
+                            df['5'],
+                            df['6']],
+                              line = dict(color='#506784'),
+                              align = ['left']*5,
+                              
+                              #font = dict(family="Arial", size=14, color=font_color),
+                              format = [None, ",.2f"],  #add % sign here
+                              height = 30,
+                              fill = dict(color='rgb(245,245,245)'))
+                             )
+        elif plot_config['plot_type'] == "figure":
+            plt.figure(df, **plot_config['args'])
+        else:
+            print('Plot type not available in automated script at the moment.')
+        
+        
 
 
 

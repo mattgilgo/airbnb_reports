@@ -1,5 +1,5 @@
-{
-    "plot": {
+[{
+    "plot1": {
         "plot_type": [
         "median_price_occupancy",
         "pivot_table",
@@ -14,3 +14,8 @@
         ]
     }
 }
+
+{  
+    "plot2"
+
+}]
