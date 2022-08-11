@@ -1,0 +1,21 @@
+[{
+    "plot1": {
+        "plot_type": [
+        "median_price_occupancy",
+        "pivot_table",
+        "line",
+        "heat_map"
+        ],
+        
+        "groupby": [
+        "guest_number",
+        "zipcode",
+        "city"
+        ]
+    }
+}
+
+{  
+    "plot2"
+
+}]
