@@ -157,7 +157,7 @@ datasets = \
         {
             "paths": ["price_by_guest_no.parquet", "occupancy_by_guest_no.parquet"],
             "plots":
-                {
+                [{
                     "plot_type": "Figure",
                     "args": {
                         "data": {
@@ -189,8 +189,8 @@ datasets = \
                         },
                         "title": "Median Price and Occupancy by # of Guests",
                         "location": ""
-                    }
-                }
+                }]
+        }
     ]
 }
 
