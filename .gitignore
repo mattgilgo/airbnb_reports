@@ -134,6 +134,9 @@ bucket_data/
 #html files
 *.html
 
+#ipynb files
+*.ipynb
+
 # html_plots
 html_plots/
 
