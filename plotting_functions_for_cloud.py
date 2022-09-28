@@ -16,7 +16,7 @@ datasets = \
 {
     "datasets": [
     {
-            "paths": ["joined_viz_table.csv"],
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
             "plots":[
                 {
                     "plot_type": "choropleth",
@@ -29,13 +29,13 @@ datasets = \
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa",
-                        "html_filename": "newsletter_features/choropleth_occ_rate_config_generated_cloud_100pctrange.html",
-                        "png_filename": "newsletter_features/choropleth_occ_rate_config_generated_cloud_100pctrange.png"
+                        "html_filename": "html_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.html",
+                        "png_filename": "png_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.png"
                     }
                 }]
     },
     {
-            "paths": ["joined_viz_table.csv"],
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
             "plots":[
                 {
                     "plot_type": "choropleth",
@@ -48,13 +48,13 @@ datasets = \
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa",
-                        "html_filename": "newsletter_features/choropleth_price_config_generated_cloud_100pctrange.html",
-                        "png_filename": "newsletter_features/choropleth_price_config_generated_cloud_100pctrange.png"
+                        "html_filename": "html_plots/choropleth_price_config_generated_cloud_100pctrange.html",
+                        "png_filename": "png_plots/choropleth_price_config_generated_cloud_100pctrange.png"
                     }
                 }]
     },
     {
-            "paths": ['joined_viz_table.csv'],
+            "paths": ['dataframe_csvs/joined_viz_table.csv'],
             "plots": [{
                     "plot_type": "Table",
                     "args": {
@@ -93,19 +93,19 @@ datasets = \
                                 "color":"rgb(245,245,245)"
                             }
                         },
-                        "html_filename": "newsletter_features/occ_rate_trend_weekly_table_config_generated_cloud.html",
-                        "png_filename": "newsletter_features/occ_rate_trend_weekly_table_config_generated_cloud.png"
+                        "html_filename": "html_plots/occ_rate_trend_weekly_table_config_generated_cloud.html",
+                        "png_filename": "png_plots/occ_rate_trend_weekly_table_config_generated_cloud.png"
                     }
                 }]
     },
     {
-            "paths": ['joined_viz_table.csv'],
+            "paths": ['dataframe_csvs/joined_viz_table.csv'],
             "plots": [{
                     "plot_type": "Table",
                     "args": {
                         "title": "Recent Pricing Trends (%) (W/W)",
                         "indexcol": 'zipcode',
-                        "colnames": ['avg_display_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change','avg_nightly_price_pct_change'],
+                        "colnames": ['avg_nightly_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change','avg_total_price_pct_change'],
                         #"columnwidth": 50, #dont need, table changes dynamically with page in html
                         #"columnorder": [0,1,2,3,4], # dont need
                         "header": {
@@ -138,13 +138,13 @@ datasets = \
                                 "color":"rgb(245,245,245)"
                             }
                         },
-                        "html_filename": "newsletter_features/price_trend_weekly_table_config_generated_cloud.html",
-                        "png_filename": "newsletter_features/price_trend_weekly_table_config_generated_cloud.png"
+                        "html_filename": "html_plots/price_trend_weekly_table_config_generated_cloud.html",
+                        "png_filename": "png_plots/price_trend_weekly_table_config_generated_cloud.png"
                     }
                 }]
     },
     {
-            "paths": ["joined_viz_table.csv"],
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
             "plots":
                 [{
                     "plot_type": "Figure",
@@ -157,7 +157,7 @@ datasets = \
                                     "x": "Guest Number", # need this in table
                                     #"y": ["Display Price","Cleaning Fee","Service Fee"],
                                     #"y": "Total Price",
-                                    "y": "avg_nightly_price",
+                                    "y": "avg_nightly_price",   # Update this
                                     "yaxis": "y",
                                     "offsetgroup": 1,
                                     "dataframe_path_position": 0
@@ -184,15 +184,15 @@ datasets = \
                         "title": "Median Price and Occupancy by # of Guests",
                         #"location": "", # use for specified zips later
                         #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "newsletter_features/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.html",
+                        "html_filename": "html_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.html",
                         #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "newsletter_features/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.png",
+                        "png_filename": "png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.png",
                         "barmode": "group"
                         },
                 }]
     },
         {
-            "paths": ["joined_viz_table.csv"],
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
             "plots":
                 [{
                     "plot_type": "Figure",
@@ -232,9 +232,9 @@ datasets = \
                         "title": "Median Price and Occupancy by # of Guests",
                         #"location": "", # use for specified zips later
                         #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "newsletter_features/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
+                        "html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
                         #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "newsletter_features/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
+                        "png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
                         "barmode": "group"
                         },
                 }]
@@ -245,7 +245,7 @@ datasets = \
 # Day of week line plots, add in at later date
 """
     {  
-            "paths": ["joined_viz_table.csv"],
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
             "plots":[
                 {
                     "plot_type": "line",
@@ -258,13 +258,13 @@ datasets = \
                             "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
                             "available_delta_pct": "Occupancy Rate (%)"
                         },
-                        "html_filename": "newsletter_features/line_fig_occ_rate_config_generated.html",
-                        "png_filename": "newsletter_features/line_fig_occ_rate_config_generated.png"
+                        "html_filename": "html_plots/line_fig_occ_rate_config_generated.html",
+                        "png_filename": "png_plots/line_fig_occ_rate_config_generated.png"
                     }
                 }]
     },
     {  
-            "paths": ["joined_viz_table.csv"],
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
             "plots":[
                 {
                     "plot_type": "line",
@@ -277,8 +277,8 @@ datasets = \
                             "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
                             "total_price_delta_pct": "Price ($)"
                         },
-                        "html_filename": "newsletter_features/line_fig_price_config_generated.html",
-                        "png_filename": "newsletter_features/line_fig_price_config_generated.png"
+                        "html_filename": "html_plots/line_fig_price_config_generated.html",
+                        "png_filename": "png_plots/line_fig_price_config_generated.png"
                     }
                 }]
     },
@@ -336,34 +336,31 @@ def full_analytics_report(day=TEST_DATE, filename='reports/full_newsletter_draft
 
   # Page 2
   pdf.add_page()
-  pdf.image('../airbnb_reports/newsletter_features/choropleth_occ_rate_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
+  pdf.image('../airbnb_reports/png_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
 
   # Page 3
   # Header and Title Page
   pdf.add_page()
-  pdf.image('../airbnb_reports/newsletter_features/choropleth_price_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
+  pdf.image('../airbnb_reports/png_plots/choropleth_price_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
 
   # Page 4
   pdf.add_page()
-  pdf.image('../airbnb_reports/newsletter_features/occ_rate_trend_weekly_table_config_generated_cloud.png', x=0, y=0, w=WIDTH-20, h=130)
-  pdf.image('../airbnb_reports/newsletter_features/price_trend_weekly_table_config_generated_cloud.png', x=0, y=140, w=WIDTH-20, h=130)
+  pdf.image('../airbnb_reports/png_plots/occ_rate_trend_weekly_table_config_generated_cloud.png', x=0, y=0, w=WIDTH-20, h=130)
+  pdf.image('../airbnb_reports/png_plots/price_trend_weekly_table_config_generated_cloud.png', x=0, y=140, w=WIDTH-20, h=130)
 
   # Page 5
   pdf.add_page()
-  pdf.image('../airbnb_reports/newsletter_features/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
   
   # Page 6
   pdf.add_page()
-  pdf.image('../airbnb_reports/newsletter_features/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
   
   # Save file
   pdf.output(filename, 'F')
 
-
-## Main function for generating Newsletter 
-if __name__ == "__main__":
-
-    # Plotly county geojson
+def generate_plots(desired_zips: list):
+        # Plotly county geojson
     #with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     #    counties = json.load(response)
 
@@ -401,13 +398,14 @@ if __name__ == "__main__":
         dfs = []
         df = None
         for path in dataset_config["paths"]:
-            print(path)
+            #print(path)
             df = pd.read_csv(path)
+            df = df[df['zipcode'].isin(desired_zips)]
         #    dfs = dfs.append(df)
         #if len(dfs) == 1:
         #    df = dfs[0]
         for plot_config in dataset_config['plots']:
-            print(plot_config)
+            #print(plot_config)
             if plot_config['plot_type'] == "line":
                 fig = px.line(df, 
                 x=plot_config['args']['x'], 
@@ -478,7 +476,7 @@ if __name__ == "__main__":
                 df = None
                 df_counter = 0
                 for path in dataset_config["paths"]:
-                    print(path)
+                    #print(path)
                     df = pd.read_csv(path).reset_index()
                     dfs.append(df)
                 if len(dfs) == 1:
@@ -499,7 +497,7 @@ if __name__ == "__main__":
                                     offsetgroup = trace['offsetgroup']
                                 )
                                 traces.append(plot_trace)
-                            print("through trace")
+                            #print("through trace")
                         fig = go.Figure(
                             data = traces,
                             layout = plot_config['args']['layout']
@@ -511,9 +509,21 @@ if __name__ == "__main__":
             
                 else:
                     print('Plot type not available in automated script at the moment.')
+                print('Plot Complete and Saved.')
+    
+    return figs
+
+    
+
+## Main function for generating Newsletter 
+if __name__ == "__main__":
+    # Generate Desired Plots
+    figs = generate_plots()
 
     # Generate html-based newsletter
-    combine_plotly_figs_to_html(figs, 'interactive_newsletter.html')
+    combine_plotly_figs_to_html(figs, 'reports/interactive_newsletter.html')
+
     # Generate image-based newsletter
     full_analytics_report()
+
     print('Report Generation complete!')
