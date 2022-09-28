@@ -134,6 +134,14 @@ bucket_data/
 #html files
 *.html
 
+# html_plots
+html_plots/
+
+# html_plots
+newsletter_features/
+
 #joined_viz_table
 joined_viz_table.csv
 
+#logs
+/log
