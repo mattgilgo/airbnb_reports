@@ -10,44 +10,6 @@ import pandas as pd
 datasets = \
 {
     "datasets": [
-    {  
-            "paths": ["joined_viz_table.csv"],
-            "plots":[
-                {
-                    "plot_type": "line",
-                    "args": {
-                        "title": "Occupancy Rate Changes W/W Monday-Sunday",
-                        "x": "day_of_week_x",
-                        "y": "available_delta_pct",
-                        "color": "zipcode",
-                        "labels":{
-                            "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
-                            "available_delta_pct": "Occupancy Rate (%)"
-                        },
-                        "html_filename": "newsletter_features/line_fig_occ_rate_config_generated.html",
-                        "png_filename": "newsletter_features/line_fig_occ_rate_config_generated.png"
-                    }
-                }]
-    },
-    {  
-            "paths": ["joined_viz_table.csv"],
-            "plots":[
-                {
-                    "plot_type": "line",
-                    "args": {
-                        "title": "Price Changes W/W Monday-Sunday",
-                        "x": "day_of_week_x",
-                        "y": "total_price_delta_pct",
-                        "color": "zipcode",
-                        "labels":{
-                            "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
-                            "total_price_delta_pct": "Price ($)"
-                        },
-                        "html_filename": "newsletter_features/line_fig_price_config_generated.html",
-                        "png_filename": "newsletter_features/line_fig_price_config_generated.png"
-                    }
-                }]
-    },
     {
             "paths": ["joined_viz_table.csv"],
             "plots":[
@@ -57,13 +19,13 @@ datasets = \
                         "title": "Occupancy Rate Changes W/W",
                         "locations":"zipcode", # use with OpenDataDE geojsons
                         #"locations":"fips", # use with plotly geojsons
-                        "color": "available_delta_pct",
+                        "color": "occ_pct_change",
                         "color_continuous_scale": "RdYlGn",
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa",
-                        "html_filename": "newsletter_features/choropleth_occ_rate_config_generated_100pctrange.html",
-                        "png_filename": "newsletter_features/choropleth_occ_rate_config_generated_100pctrange.png"
+                        "html_filename": "newsletter_features/choropleth_occ_rate_config_generated_cloud_100pctrange.html",
+                        "png_filename": "newsletter_features/choropleth_occ_rate_config_generated_cloud_100pctrange.png"
                     }
                 }]
     },
@@ -76,13 +38,13 @@ datasets = \
                         "title": "Total Price Changes W/W",
                         "locations":"zipcode", # use with OpenDataDE geojsons
                         #"locations":"fips", # use with plotly geojsons
-                        "color": "total_price_delta_pct",
+                        "color": "avg_nightly_price_pct_change",
                         "color_continuous_scale": "RdYlGn",
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa",
-                        "html_filename": "newsletter_features/choropleth_price_config_generated_100pctrange.html",
-                        "png_filename": "newsletter_features/choropleth_price_config_generated_100pctrange.png"
+                        "html_filename": "newsletter_features/choropleth_price_config_generated_cloud_100pctrange.html",
+                        "png_filename": "newsletter_features/choropleth_price_config_generated_cloud_100pctrange.png"
                     }
                 }]
     },
@@ -225,3 +187,44 @@ datasets = \
     ]
 }      
 
+# Day of week line plots, add in at later date
+"""
+    {  
+            "paths": ["joined_viz_table.csv"],
+            "plots":[
+                {
+                    "plot_type": "line",
+                    "args": {
+                        "title": "Occupancy Rate Changes W/W Monday-Sunday",
+                        "x": "day_of_week_x",
+                        "y": "available_delta_pct",
+                        "color": "zipcode",
+                        "labels":{
+                            "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
+                            "available_delta_pct": "Occupancy Rate (%)"
+                        },
+                        "html_filename": "newsletter_features/line_fig_occ_rate_config_generated.html",
+                        "png_filename": "newsletter_features/line_fig_occ_rate_config_generated.png"
+                    }
+                }]
+    },
+    {  
+            "paths": ["joined_viz_table.csv"],
+            "plots":[
+                {
+                    "plot_type": "line",
+                    "args": {
+                        "title": "Price Changes W/W Monday-Sunday",
+                        "x": "day_of_week_x",
+                        "y": "total_price_delta_pct",
+                        "color": "zipcode",
+                        "labels":{
+                            "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
+                            "total_price_delta_pct": "Price ($)"
+                        },
+                        "html_filename": "newsletter_features/line_fig_price_config_generated.html",
+                        "png_filename": "newsletter_features/line_fig_price_config_generated.png"
+                    }
+                }]
+    },
+"""
