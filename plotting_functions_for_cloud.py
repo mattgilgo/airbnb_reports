@@ -40,7 +40,7 @@ datasets = \
                 {
                     "plot_type": "choropleth",
                     "args": {
-                        "title": "Total Price Changes W/W",
+                        "title": "Avg Nightly Price Changes W/W",
                         "locations":"zipcode", # use with OpenDataDE geojsons
                         #"locations":"fips", # use with plotly geojsons
                         "color": "avg_nightly_price_pct_change",
@@ -105,12 +105,12 @@ datasets = \
                     "args": {
                         "title": "Recent Pricing Trends (%) (W/W)",
                         "indexcol": 'zipcode',
-                        "colnames": ['avg_nightly_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change','avg_total_price_pct_change'],
+                        "colnames": ['avg_nightly_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change'],
                         #"columnwidth": 50, #dont need, table changes dynamically with page in html
                         #"columnorder": [0,1,2,3,4], # dont need
                         "header": {
                             #"height": 40, # dont need
-                            "values": [['<b>Zipcode</b>'], ['<b>Display Price Change</b>'], ['<b>Cleaning Fee Change</b>'], ['<b>Service Fee Change</b>'],['<b>Total Price Change</b>']],
+                            "values": [['<b>Zipcode</b>'], ['<b>Average Nightly Price Change</b>'], ['<b>Cleaning Fee Change</b>'], ['<b>Service Fee Change</b>']],
                             "line": {
                                 "color": "rgb(50,50,50)"
                             },
@@ -121,7 +121,7 @@ datasets = \
                             }
                         },
                         "cells": {
-                            "values": ["index", "vals.iloc[0]", "vals.iloc[1]", "vals.iloc[2]", "vals.iloc[3]"],
+                            "values": ["index", "vals.iloc[0]", "vals.iloc[1]", "vals.iloc[2]", ],
                             "line" : {
                                 "color": "#506784"
                             },
@@ -153,8 +153,8 @@ datasets = \
                             "traces": [
                                 {
                                     "plot_type": "Bar",
-                                    "title": "Total Price",
-                                    "x": "Guest Number", # need this in table
+                                    "title": "Average Nightly Price",
+                                    "x": "guest_num", # need this in table
                                     #"y": ["Display Price","Cleaning Fee","Service Fee"],
                                     #"y": "Total Price",
                                     "y": "avg_nightly_price",   # Update this
@@ -165,7 +165,7 @@ datasets = \
                                 {
                                     "plot_type": "Bar",
                                     "title": "Occupancy Rate",
-                                    "x": "Guest Number", # need this in table
+                                    "x": "guest_num", # need this in table
                                     #"y": "Occupancy Rate",
                                     "y": "occupancy_pct",
                                     "yaxis": "y2",
@@ -201,10 +201,10 @@ datasets = \
                             "traces": [
                                 {
                                     "plot_type": "Bar",
-                                    "title": "Total Price",
+                                    "title": "Average Nightly Price Change",
                                     "x": "Guest Number", # need this in table
                                     #"y": ["Display Price","Cleaning Fee","Service Fee"],
-                                    #"y": "Total Price",
+                                    "y": "Average Nightly Price Change",
                                     "y": "avg_nightly_price_pct_change",
                                     "yaxis": "y",
                                     "offsetgroup": 1,
@@ -271,11 +271,11 @@ datasets = \
                     "args": {
                         "title": "Price Changes W/W Monday-Sunday",
                         "x": "day_of_week_x",
-                        "y": "total_price_delta_pct",
+                        "y": "avg_nightly_price_delta_pct",
                         "color": "zipcode",
                         "labels":{
                             "day_of_week_x": "Day of Week (0=Mon, 6=Sun)",
-                            "total_price_delta_pct": "Price ($)"
+                            "avg_nightly_delta_pct": "Price ($)"
                         },
                         "html_filename": "html_plots/line_fig_price_config_generated.html",
                         "png_filename": "png_plots/line_fig_price_config_generated.png"
