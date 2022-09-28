@@ -105,7 +105,7 @@ datasets = \
                     "args": {
                         "title": "Recent Pricing Trends (%) (W/W)",
                         "indexcol": 'zipcode',
-                        "colnames": ['avg_display_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change','avg_total_price_pct_change'],
+                        "colnames": ['avg_display_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change','avg_nightly_price_pct_change'],
                         #"columnwidth": 50, #dont need, table changes dynamically with page in html
                         #"columnorder": [0,1,2,3,4], # dont need
                         "header": {
