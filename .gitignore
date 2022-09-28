@@ -133,3 +133,6 @@ bucket_data/
 
 #joined_viz_table
 joined_viz_table.csv
+
+#html files
+*.html
