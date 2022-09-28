@@ -137,10 +137,12 @@ bucket_data/
 #ipynb files
 *.ipynb
 
+
+
 # html_plots
 html_plots/
 
-# html_plots
+# newsletter_features
 newsletter_features/
 
 #joined_viz_table
