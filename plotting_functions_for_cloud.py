@@ -5,6 +5,13 @@ from datetime import date
 import plotly.graph_objects as go
 import plotly.express as px
 from urllib.request import urlopen
+import smtplib
+from pathlib import Path
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE, formatdate
+from email import encoders
 
 ## What to change when migrating to AWS
 # Update paths to parquet tables in aws once created
@@ -170,7 +177,7 @@ datasets = \
                                     "y": "occupancy_pct",
                                     "yaxis": "y2",
                                     "offsetgroup": 2,
-                                    "dataframe_path_position": 1
+                                    "dataframe_path_position": 0
                                 }
                             ]
                         },
@@ -187,54 +194,6 @@ datasets = \
                         "html_filename": "html_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.html",
                         #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
                         "png_filename": "png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.png",
-                        "barmode": "group"
-                        },
-                }]
-    },
-        {
-            "paths": ["dataframe_csvs/joined_viz_table.csv"],
-            "plots":
-                [{
-                    "plot_type": "Figure",
-                    "args": {
-                        "data": {
-                            "traces": [
-                                {
-                                    "plot_type": "Bar",
-                                    "title": "Average Nightly Price Change",
-                                    "x": "Guest Number", # need this in table
-                                    #"y": ["Display Price","Cleaning Fee","Service Fee"],
-                                    "y": "Average Nightly Price Change",
-                                    "y": "avg_nightly_price_pct_change",
-                                    "yaxis": "y",
-                                    "offsetgroup": 1,
-                                    "dataframe_path_position": 0
-                                },
-                                {
-                                    "plot_type": "Bar",
-                                    "title": "Occupancy Rate",
-                                    "x": "Guest Number", # need this in table
-                                    #"y": "Occupancy Rate",
-                                    "y": "occ_pct_change",
-                                    "yaxis": "y2",
-                                    "offsetgroup": 2,
-                                    "dataframe_path_position": 1
-                                }
-                            ]
-                        },
-                        
-                        "layout": {
-                                    'xaxis': {'title': '# of Guests'},
-                                    'yaxis': {'title': 'Price Change'},
-                                    'yaxis2': {'title': 'Occupancy Rate Change', 'overlaying': 'y', 'side': 'right'}
-                        },
-                        
-                        "title": "Median Price and Occupancy by # of Guests",
-                        #"location": "", # use for specified zips later
-                        #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
-                        #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
                         "barmode": "group"
                         },
                 }]
@@ -282,6 +241,58 @@ datasets = \
                     }
                 }]
     },
+"""
+# grouped bar plot with price and occupancy change by guest num
+"""
+,
+        {
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
+            "plots":
+                [{
+                    "plot_type": "Figure",
+                    "args": {
+                        "data": {
+                            "traces": [
+                                {
+                                    "plot_type": "Bar",
+                                    "title": "Average Nightly Price Change",
+                                    "x": "Guest Number", # need this in table
+                                    #"y": ["Display Price","Cleaning Fee","Service Fee"],
+                                    "y": "Average Nightly Price Change",
+                                    "y": "avg_nightly_price_pct_change",
+                                    "yaxis": "y",
+                                    "offsetgroup": 1,
+                                    "dataframe_path_position": 0
+                                },
+                                {
+                                    "plot_type": "Bar",
+                                    "title": "Occupancy Rate",
+                                    "x": "Guest Number", # need this in table
+                                    #"y": "Occupancy Rate",
+                                    "y": "occ_pct_change",
+                                    "yaxis": "y2",
+                                    "offsetgroup": 2,
+                                    "dataframe_path_position": 0
+                                }
+                            ]
+                        },
+                        
+                        "layout": {
+                                    'xaxis': {'title': '# of Guests'},
+                                    'yaxis': {'title': 'Price Change'},
+                                    'yaxis2': {'title': 'Occupancy Rate Change', 'overlaying': 'y', 'side': 'right'}
+                        },
+                        
+                        "title": "Median Price and Occupancy by # of Guests",
+                        #"location": "", # use for specified zips later
+                        #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
+                        "html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
+                        #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
+                        "png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
+                        "barmode": "group"
+                        },
+                }]
+    }
 """
 
 ## Newsletter Generation
@@ -359,7 +370,7 @@ def full_analytics_report(day=TEST_DATE, filename='reports/full_newsletter_draft
   # Save file
   pdf.output(filename, 'F')
 
-def generate_plots(desired_zips: list):
+def generate_plots():
         # Plotly county geojson
     #with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     #    counties = json.load(response)
@@ -400,7 +411,7 @@ def generate_plots(desired_zips: list):
         for path in dataset_config["paths"]:
             #print(path)
             df = pd.read_csv(path)
-            df = df[df['zipcode'].isin(desired_zips)]
+            #df = df[df['zipcode'].isin(desired_zips)]
         #    dfs = dfs.append(df)
         #if len(dfs) == 1:
         #    df = dfs[0]
@@ -509,9 +520,54 @@ def generate_plots(desired_zips: list):
             
                 else:
                     print('Plot type not available in automated script at the moment.')
-                print('Plot Complete and Saved.')
+            print('Plot Complete and Saved.')
     
     return figs
+
+# Function to Send Email from btd gmail account
+def send_mail(send_from, send_to, subject, message, files=[],
+              server="localhost", port=587, username='buildthedome@gmail.com', password='pmtahaysafpescdy',
+              use_tls=True):
+    """Compose and send email with provided info and attachments.
+
+    Args:
+        send_from (str): from name
+        send_to (list[str]): to name(s)
+        subject (str): message title
+        message (str): message body
+        files (list[str]): list of file paths to be attached to email
+        server (str): mail server host name
+        port (int): port number
+        username (str): server auth username
+        password (str): server auth password
+        use_tls (bool): use TLS mode
+    """
+    msg = MIMEMultipart()
+    msg['From'] = send_from
+    msg['To'] = COMMASPACE.join(send_to)
+    msg['Date'] = formatdate(localtime=True)
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(message))
+
+    for path in files:
+        part = MIMEBase('application', "octet-stream")
+        with open(path, 'rb') as file:
+            part.set_payload(file.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition',
+                        'attachment; filename={}'.format(Path(path).name))
+        msg.attach(part)
+
+    smtp = smtplib.SMTP(server, port)
+    if use_tls:
+        smtp.starttls()
+    smtp.login(username, password)
+    smtp.sendmail(send_from, send_to, msg.as_string())
+    smtp.quit()
+
+
+
 
     
 
@@ -525,5 +581,13 @@ if __name__ == "__main__":
 
     # Generate image-based newsletter
     full_analytics_report()
-
     print('Report Generation complete!')
+
+    # Send newsletter in email from btd account
+    send_mail('buildthedome@gmail.com', 
+    ['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
+    'Airbnb Newsletter', 
+    'Hi there! \r\n\r\nThis report was generated and sent in an email using python. Please see the attached pdf to view the current your customized Airbnb Market Report.\r\n\r\nThank you! :^) ', 
+    files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
+    server="smtp.gmail.com")
+    print('Email sent!')
