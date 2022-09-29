@@ -67,6 +67,7 @@ datasets = \
                     "args": {
                         "title": "Recent Occupancy Rate Trends (%) (W/W)",
                         "indexcol": 'zipcode',
+                        "agg_method": 'groupby',
                         "colnames": ['occupancy_pct','occupancy_pct_lag_7_day','occ_pct_change'],
                         #"columnwidth": 50, #dont need, table changes dynamically with page in html
                         #"columnorder": [0,1,2,3,4], # dont need
@@ -112,6 +113,7 @@ datasets = \
                     "args": {
                         "title": "Recent Pricing Trends (%) (W/W)",
                         "indexcol": 'zipcode',
+                        "agg_method": 'groupby',
                         "colnames": ['avg_nightly_price_pct_change','avg_cleaning_fee_pct_change','avg_service_fee_pct_change'],
                         #"columnwidth": 50, #dont need, table changes dynamically with page in html
                         #"columnorder": [0,1,2,3,4], # dont need
@@ -161,10 +163,8 @@ datasets = \
                                 {
                                     "plot_type": "Bar",
                                     "title": "Average Nightly Price",
-                                    "x": "guest_num", # need this in table
-                                    #"y": ["Display Price","Cleaning Fee","Service Fee"],
-                                    #"y": "Total Price",
-                                    "y": "avg_nightly_price",   # Update this
+                                    "x": "guest_num",
+                                    "y": "avg_nightly_price",
                                     "yaxis": "y",
                                     "offsetgroup": 1,
                                     "dataframe_path_position": 0
@@ -172,8 +172,7 @@ datasets = \
                                 {
                                     "plot_type": "Bar",
                                     "title": "Occupancy Rate",
-                                    "x": "guest_num", # need this in table
-                                    #"y": "Occupancy Rate",
+                                    "x": "guest_num",
                                     "y": "occupancy_pct",
                                     "yaxis": "y2",
                                     "offsetgroup": 2,
@@ -256,9 +255,7 @@ datasets = \
                                 {
                                     "plot_type": "Bar",
                                     "title": "Average Nightly Price Change",
-                                    "x": "Guest Number", # need this in table
-                                    #"y": ["Display Price","Cleaning Fee","Service Fee"],
-                                    "y": "Average Nightly Price Change",
+                                    "x": "guest_num",
                                     "y": "avg_nightly_price_pct_change",
                                     "yaxis": "y",
                                     "offsetgroup": 1,
@@ -267,8 +264,7 @@ datasets = \
                                 {
                                     "plot_type": "Bar",
                                     "title": "Occupancy Rate",
-                                    "x": "Guest Number", # need this in table
-                                    #"y": "Occupancy Rate",
+                                    "x": "guest_num",
                                     "y": "occ_pct_change",
                                     "yaxis": "y2",
                                     "offsetgroup": 2,
@@ -360,12 +356,12 @@ def full_analytics_report(day=TEST_DATE, filename='reports/full_newsletter_draft
   pdf.image('../airbnb_reports/png_plots/price_trend_weekly_table_config_generated_cloud.png', x=0, y=140, w=WIDTH-20, h=130)
 
   # Page 5
-  pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  #pdf.add_page()
+  #pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
   
   # Page 6
-  pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  #pdf.add_page()
+  #pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
   
   # Save file
   pdf.output(filename, 'F')
@@ -447,6 +443,8 @@ def generate_plots():
                 figs.append(fig)
             
             elif plot_config['plot_type'] == "Table":
+                if plot_config['args']['agg_method'] == 'groupby':
+                    df = df.groupby(plot_config['args']['indexcol'])[plot_config['args']['colnames']].mean().reset_index()
                 index = df[plot_config['args']['indexcol']]
                 vals = []
                 for col_name in plot_config['args']['colnames']:
@@ -492,6 +490,8 @@ def generate_plots():
                     dfs.append(df)
                 if len(dfs) == 1:
                     df = dfs[0]
+                if plot_config['args']['agg_method'] == 'groupby':
+                    df = df.groupby(plot_config['args']['data']['traces']['x'])[plot_config['args']['data']['traces']['y']].mean().reset_index()                
                 for plot_config in dataset_config['plots']:
                     if plot_config['plot_type'] == "Figure":
                         #logic to iterate across multiple paths to use for figure traces
@@ -584,10 +584,10 @@ if __name__ == "__main__":
     print('Report Generation complete!')
 
     # Send newsletter in email from btd account
-    send_mail('buildthedome@gmail.com', 
-    ['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
-    'Airbnb Newsletter', 
-    'Hi there! \r\n\r\nThis report was generated and sent in an email using python. Please see the attached pdf to view the current your customized Airbnb Market Report.\r\n\r\nThank you! :^) ', 
-    files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
-    server="smtp.gmail.com")
-    print('Email sent!')
+    #send_mail('buildthedome@gmail.com', 
+    #['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
+    #'Airbnb Newsletter', 
+    #'Hi there! \r\n\r\nThis report was generated and sent in an email using python. Please see the attached pdf to view the current your customized Airbnb Market Report.\r\n\r\nThank you! :^) ', 
+    #files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
+    #server="smtp.gmail.com")
+    #print('Email sent!')
