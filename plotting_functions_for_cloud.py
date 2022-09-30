@@ -167,7 +167,8 @@ datasets = \
                                     "y": "avg_nightly_price",
                                     "yaxis": "y",
                                     "offsetgroup": 1,
-                                    "dataframe_path_position": 0
+                                    "dataframe_path_position": 0,
+                                    "agg_method": 'groupby'
                                 },
                                 {
                                     "plot_type": "Bar",
@@ -176,7 +177,8 @@ datasets = \
                                     "y": "occupancy_pct",
                                     "yaxis": "y2",
                                     "offsetgroup": 2,
-                                    "dataframe_path_position": 0
+                                    "dataframe_path_position": 0,
+                                    "agg_method": 'groupby'
                                 }
                             ]
                         },
@@ -190,9 +192,56 @@ datasets = \
                         "title": "Median Price and Occupancy by # of Guests",
                         #"location": "", # use for specified zips later
                         #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "html_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.html",
+                        "html_filename": "html_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.html",
                         #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated.png",
+                        "png_filename": "png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png",
+                        "barmode": "group"
+                        },
+                }]
+    },
+    {
+            "paths": ["dataframe_csvs/joined_viz_table.csv"],
+            "plots":
+                [{
+                    "plot_type": "Figure",
+                    "args": {
+                        "data": {
+                            "traces": [
+                                {
+                                    "plot_type": "Bar",
+                                    "title": "Average Nightly Price Change",
+                                    "x": "guest_num",
+                                    "y": "avg_nightly_price_pct_change",
+                                    "yaxis": "y",
+                                    "offsetgroup": 1,
+                                    "dataframe_path_position": 0,
+                                    "agg_method": 'groupby'
+                                },
+                                {
+                                    "plot_type": "Bar",
+                                    "title": "Occupancy Rate",
+                                    "x": "guest_num",
+                                    "y": "occ_pct_change",
+                                    "yaxis": "y2",
+                                    "offsetgroup": 2,
+                                    "dataframe_path_position": 0,
+                                    "agg_method": 'groupby'
+                                }
+                            ]
+                        },
+                        
+                        "layout": {
+                                    'xaxis': {'title': '# of Guests'},
+                                    'yaxis': {'title': 'Price Change'},
+                                    'yaxis2': {'title': 'Occupancy Rate Change', 'overlaying': 'y', 'side': 'right'}
+                        },
+                        
+                        "title": "Median Price and Occupancy by # of Guests",
+                        #"location": "", # use for specified zips later
+                        #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
+                        "html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
+                        #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
+                        "png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
                         "barmode": "group"
                         },
                 }]
@@ -241,55 +290,7 @@ datasets = \
                 }]
     },
 """
-# grouped bar plot with price and occupancy change by guest num
-"""
-,
-        {
-            "paths": ["dataframe_csvs/joined_viz_table.csv"],
-            "plots":
-                [{
-                    "plot_type": "Figure",
-                    "args": {
-                        "data": {
-                            "traces": [
-                                {
-                                    "plot_type": "Bar",
-                                    "title": "Average Nightly Price Change",
-                                    "x": "guest_num",
-                                    "y": "avg_nightly_price_pct_change",
-                                    "yaxis": "y",
-                                    "offsetgroup": 1,
-                                    "dataframe_path_position": 0
-                                },
-                                {
-                                    "plot_type": "Bar",
-                                    "title": "Occupancy Rate",
-                                    "x": "guest_num",
-                                    "y": "occ_pct_change",
-                                    "yaxis": "y2",
-                                    "offsetgroup": 2,
-                                    "dataframe_path_position": 0
-                                }
-                            ]
-                        },
-                        
-                        "layout": {
-                                    'xaxis': {'title': '# of Guests'},
-                                    'yaxis': {'title': 'Price Change'},
-                                    'yaxis2': {'title': 'Occupancy Rate Change', 'overlaying': 'y', 'side': 'right'}
-                        },
-                        
-                        "title": "Median Price and Occupancy by # of Guests",
-                        #"location": "", # use for specified zips later
-                        #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
-                        #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
-                        "barmode": "group"
-                        },
-                }]
-    }
-"""
+
 
 ## Newsletter Generation
 
@@ -356,12 +357,12 @@ def full_analytics_report(day=TEST_DATE, filename='reports/full_newsletter_draft
   pdf.image('../airbnb_reports/png_plots/price_trend_weekly_table_config_generated_cloud.png', x=0, y=140, w=WIDTH-20, h=130)
 
   # Page 5
-  #pdf.add_page()
-  #pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  pdf.add_page()
+  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
   
   # Page 6
-  #pdf.add_page()
-  #pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  pdf.add_page()
+  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
   
   # Save file
   pdf.output(filename, 'F')
@@ -374,6 +375,7 @@ def generate_plots():
     # OpenDataDE geojsons for different states
     with urlopen('https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/fl_florida_zip_codes_geo.min.json') as response:
         zipcodes = json.load(response)
+    print('geojson loaded')
     """
     with urlopen('https://raw.githubusercontent.com/OpenDataDE/State-zip-code-GeoJSON/master/nc_north_carolina_zip_codes_geo.min.json') as response:
         nc_zipcodes = json.load(response)
@@ -487,18 +489,20 @@ def generate_plots():
                 for path in dataset_config["paths"]:
                     #print(path)
                     df = pd.read_csv(path).reset_index()
+                    df['guest_num'] = df['guest_num'].str.split(' ').str[0]
+                    df['guest_num'] = df['guest_num'].astype('float')
                     dfs.append(df)
                 if len(dfs) == 1:
                     df = dfs[0]
-                if plot_config['args']['agg_method'] == 'groupby':
-                    df = df.groupby(plot_config['args']['data']['traces']['x'])[plot_config['args']['data']['traces']['y']].mean().reset_index()                
                 for plot_config in dataset_config['plots']:
                     if plot_config['plot_type'] == "Figure":
                         #logic to iterate across multiple paths to use for figure traces
                         traces = []
                         for trace in plot_config['args']['data']['traces']:
-                            print(trace)
+                            #print(trace)
                             df_for_trace = dfs[trace['dataframe_path_position']]
+                            if trace['agg_method'] == 'groupby':
+                                    df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
                             if trace['plot_type'] == "Bar":
                                 plot_trace = go.Bar(
                                     name = trace['title'],
@@ -517,9 +521,8 @@ def generate_plots():
                         fig.write_html(plot_config['args']['html_filename'])
                         fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
                         figs.append(fig)
-            
-                else:
-                    print('Plot type not available in automated script at the moment.')
+                    else:
+                        print('Plot type not available in automated script at the moment.')
             print('Plot Complete and Saved.')
     
     return figs
@@ -584,10 +587,10 @@ if __name__ == "__main__":
     print('Report Generation complete!')
 
     # Send newsletter in email from btd account
-    #send_mail('buildthedome@gmail.com', 
-    #['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
-    #'Airbnb Newsletter', 
-    #'Hi there! \r\n\r\nThis report was generated and sent in an email using python. Please see the attached pdf to view the current your customized Airbnb Market Report.\r\n\r\nThank you! :^) ', 
-    #files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
-    #server="smtp.gmail.com")
-    #print('Email sent!')
+    send_mail('buildthedome@gmail.com', 
+    ['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
+    'Airbnb Newsletter', 
+    'Hi there! \r\n\r\nThis report was generated and sent in an email using python. Please see the attached pdf to view the current your customized Airbnb Market Report.\r\n\r\nThank you! :^) ', 
+    files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
+    server="smtp.gmail.com")
+    print('Email sent!')
