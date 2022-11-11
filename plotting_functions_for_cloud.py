@@ -595,16 +595,22 @@ def send_mail(send_from, send_to, subject, message, files=[],
 ## Main function for generating Newsletter 
 if __name__ == "__main__":
     # Generate Desired Plots
+    print("Running generate_plots function...")
     figs = generate_plots()
+    print("generate_plots complete!")
 
     # Generate html-based newsletter
+    print("Running combine_plotly_figs_to_html function...")
     combine_plotly_figs_to_html(figs, 'reports/interactive_newsletter.html')
+    print("combine_plotly_figs_to_html complete!")
 
     # Generate image-based newsletter
+    print("Generating Report...")
     full_analytics_report()
     print('Report Generation complete!')
 
     # Send newsletter in email from btd account
+    print("Sending Email...")
     send_mail('buildthedome@gmail.com', 
     ['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
     'Airbnb Newsletter', 
