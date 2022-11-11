@@ -379,7 +379,15 @@ def generate_plots():
     #pandas_dataframe = pq.ParquetDataset('s3://your-bucket/', filesystem=s3).read_pandas().to_pandas()  
 
     # joined_viz_table df from s3 bucket
-    df = wr.s3.read_parquet("s3://airbnb-scraper-bucket-0-1-1/data/beta_data_tables/joined_viz_table/part-00000-a2efad80-8ff7-44f7-b8c9-e7c65949744b-c000.snappy.parquet", dataset=True)
+    s3_path = "s3://airbnb-scraper-bucket-0-1-1/data/beta_data_tables/joined_viz_table/part-00000-a2efad80-8ff7-44f7-b8c9-e7c65949744b-c000"
+
+    df = wr.s3.read_parquet(
+        path = s3_path,
+        path_suffix = ".snappy.parquet",
+        use_threads = True,
+        dataset = True
+    )
+    #df = wr.s3.read_parquet("s3://airbnb-scraper-bucket-0-1-1/data/beta_data_tables/joined_viz_table/part-00000-a2efad80-8ff7-44f7-b8c9-e7c65949744b-c000.snappy.parquet", dataset=True)
 
         # Plotly county geojson
     #with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
