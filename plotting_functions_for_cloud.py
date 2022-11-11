@@ -430,6 +430,7 @@ def generate_plots():
     for plot_config in datasets['datasets']['plots']:
         #print(plot_config)
         if plot_config['plot_type'] == "line":
+            print('Creating Line type Plot')
             fig = px.line(df, 
             x=plot_config['args']['x'], 
             y=plot_config['args']['y'], 
@@ -442,7 +443,7 @@ def generate_plots():
             figs.append(fig)
 
         elif plot_config['plot_type'] == "choropleth":
-
+            print('Creating Choropleth type Plot')
             fig = px.choropleth(df,
             geojson=zipcodes,  # use with OpenDataDE geojsons
             #geojson=counties,   # use with plotly geojsons
@@ -459,6 +460,7 @@ def generate_plots():
             figs.append(fig)
         
         elif plot_config['plot_type'] == "Table":
+            print('Creating Table type Plot')
             if plot_config['args']['agg_method'] == 'groupby':
                 df = df.groupby(plot_config['args']['indexcol'])[plot_config['args']['colnames']].mean().reset_index()
             index = df[plot_config['args']['indexcol']]
@@ -497,46 +499,48 @@ def generate_plots():
             figs.append(fig)
         
         elif plot_config['plot_type'] == "Figure":
-            dfs = []
-            df = None
+            print('Creating Figure type Plot')
+            #dfs = []
+            #df = None
             df_counter = 0
-            for path in dataset_config["paths"]:
+            #for path in dataset_config["paths"]:
                 #print(path)
-                df = pd.read_csv(path).reset_index()
-                df['guest_num'] = df['guest_num'].str.split(' ').str[0]
-                df['guest_num'] = df['guest_num'].astype('float')
-                dfs.append(df)
-            if len(dfs) == 1:
-                df = dfs[0]
-            for plot_config in dataset_config['plots']:
-                if plot_config['plot_type'] == "Figure":
+                #df = pd.read_csv(path).reset_index()
+            #    df['guest_num'] = df['guest_num'].str.split(' ').str[0]
+            #    df['guest_num'] = df['guest_num'].astype('float')
+            #    dfs.append(df)
+            #if len(dfs) == 1:
+            #    df = dfs[0]
+            #for plot_config in dataset_config['plots']:
+            #    if plot_config['plot_type'] == "Figure":
                     #logic to iterate across multiple paths to use for figure traces
-                    traces = []
-                    for trace in plot_config['args']['data']['traces']:
-                        #print(trace)
-                        df_for_trace = dfs[trace['dataframe_path_position']]
-                        if trace['agg_method'] == 'groupby':
-                                df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
-                        if trace['plot_type'] == "Bar":
-                            plot_trace = go.Bar(
-                                name = trace['title'],
-                                x = df_for_trace[trace['x']], 
-                                y = df_for_trace[trace['y']], 
-                                yaxis = trace['yaxis'], 
-                                offsetgroup = trace['offsetgroup']
-                            )
-                            traces.append(plot_trace)
-                        #print("through trace")
-                    fig = go.Figure(
-                        data = traces,
-                        layout = plot_config['args']['layout']
+                    # Line tabbed back here for running local
+            traces = []
+            for trace in plot_config['args']['data']['traces']:
+                #print(trace)
+                df_for_trace = df
+                if trace['agg_method'] == 'groupby':
+                        df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
+                if trace['plot_type'] == "Bar":
+                    plot_trace = go.Bar(
+                        name = trace['title'],
+                        x = df_for_trace[trace['x']], 
+                        y = df_for_trace[trace['y']], 
+                        yaxis = trace['yaxis'], 
+                        offsetgroup = trace['offsetgroup']
                     )
-                    fig.update_layout(title_text=plot_config['args']['title'], barmode=plot_config['args']['barmode'])
-                    fig.write_html(plot_config['args']['html_filename'])
-                    fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-                    figs.append(fig)
-                else:
-                    print('Plot type not available in automated script at the moment.')
+                    traces.append(plot_trace)
+                #print("through trace")
+            fig = go.Figure(
+                data = traces,
+                layout = plot_config['args']['layout']
+            )
+            fig.update_layout(title_text=plot_config['args']['title'], barmode=plot_config['args']['barmode'])
+            fig.write_html(plot_config['args']['html_filename'])
+            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+            figs.append(fig)
+        else:
+            print('Plot type not available in automated script at the moment.')
         print('Plot Complete and Saved.')
 
     return figs
