@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.10
 
 ADD plotting_functions_for_cloud.py /
 ADD requirements.txt /

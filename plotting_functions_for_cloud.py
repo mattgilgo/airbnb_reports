@@ -5,6 +5,7 @@ from datetime import date
 import plotly.graph_objects as go
 import plotly.express as px
 from urllib.request import urlopen
+import awswrangler as wr
 import smtplib
 from pathlib import Path
 from email.mime.multipart import MIMEMultipart
@@ -368,6 +369,18 @@ def full_analytics_report(day=TEST_DATE, filename='reports/full_newsletter_draft
   pdf.output(filename, 'F')
 
 def generate_plots():
+    #s3_client = boto3.client('s3')
+    #config_object = s3_client.get_object(Bucket=args.bucket, Key=args.key_path)
+    #contents = config_object['Body'].read().decode('utf-8')
+    
+    #import pyarrow.parquet as pq
+    #import s3fs
+    #s3 = s3fs.S3FileSystem()
+    #pandas_dataframe = pq.ParquetDataset('s3://your-bucket/', filesystem=s3).read_pandas().to_pandas()  
+
+    # joined_viz_table df from s3 bucket
+    df = wr.s3.read_parquet("s3://airbnb-scraper-bucket-0-1-1/data/beta_data_tables/joined_viz_table/", dataset=True)
+
         # Plotly county geojson
     #with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     #    counties = json.load(response)
@@ -403,128 +416,129 @@ def generate_plots():
     figs = []
 
     # Generate Plots
-    for dataset_config in datasets['datasets']:
-        dfs = []
-        df = None
-        for path in dataset_config["paths"]:
-            #print(path)
-            df = pd.read_csv(path)
-            #df = df[df['zipcode'].isin(desired_zips)]
-        #    dfs = dfs.append(df)
+    #for dataset_config in datasets['datasets']:
+    #    dfs = []
+    #    df = None
+    #    for path in dataset_config["paths"]:
+    #        #print(path)
+    #        df = pd.read_csv(path)
+    #        #df = df[df['zipcode'].isin(desired_zips)]
+    #    #    dfs = dfs.append(df)
         #if len(dfs) == 1:
         #    df = dfs[0]
-        for plot_config in dataset_config['plots']:
-            #print(plot_config)
-            if plot_config['plot_type'] == "line":
-                fig = px.line(df, 
-                x=plot_config['args']['x'], 
-                y=plot_config['args']['y'], 
-                color=plot_config['args']['color'],
-                labels=plot_config['args']['labels']
-                )
-                fig.update_layout(title=plot_config['args']['title'])
-                fig.write_html(plot_config['args']['html_filename'])
-                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-                figs.append(fig)
+        # indent for-loop back here if needed to run locally with csv
+    for plot_config in datasets['datasets']['plots']:
+        #print(plot_config)
+        if plot_config['plot_type'] == "line":
+            fig = px.line(df, 
+            x=plot_config['args']['x'], 
+            y=plot_config['args']['y'], 
+            color=plot_config['args']['color'],
+            labels=plot_config['args']['labels']
+            )
+            fig.update_layout(title=plot_config['args']['title'])
+            fig.write_html(plot_config['args']['html_filename'])
+            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+            figs.append(fig)
 
-            elif plot_config['plot_type'] == "choropleth":
+        elif plot_config['plot_type'] == "choropleth":
 
-                fig = px.choropleth(df,
-                geojson=zipcodes,  # use with OpenDataDE geojsons
-                #geojson=counties,   # use with plotly geojsons
-                locations=plot_config['args']['locations'],
-                color=plot_config['args']['color'],
-                color_continuous_scale=plot_config['args']['color_continuous_scale'],
-                featureidkey=plot_config['args']['featureidkey'],
-                range_color=plot_config['args']['range_color'],
-                scope=plot_config['args']['scope']
-                )
-                fig.update_layout(title=plot_config['args']['title'])
-                fig.write_html(plot_config['args']['html_filename'])
-                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-                figs.append(fig)
-            
-            elif plot_config['plot_type'] == "Table":
-                if plot_config['args']['agg_method'] == 'groupby':
-                    df = df.groupby(plot_config['args']['indexcol'])[plot_config['args']['colnames']].mean().reset_index()
-                index = df[plot_config['args']['indexcol']]
-                vals = []
-                for col_name in plot_config['args']['colnames']:
-                    vals.append(df[col_name])
-                val_col_count = len(vals)
-                indvl_vals = [index]
-                for col_name in plot_config['args']['colnames']:
-                    indvl_vals.append(df[col_name])
-                indvl_vals_col_count = len(df.columns)
-                font_color = 'black'
-                if plot_config['args']['cells']['font']['color'] == "conditional_red_or_green":
-                    if plot_config['args']['cells']['font']['conditional_direction'] == "positive":
-                        font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v < 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
-                    elif plot_config['args']['cells']['font']['conditional_direction'] == "negative":
-                        font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v > 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
-                fig = go.Figure(data=go.Table(
-                    header = plot_config['args']['header'],
-                    cells = dict(values=indvl_vals,
-                                line = plot_config['args']['cells']['line'],
-                                align =  [plot_config['args']['cells']['align']]*indvl_vals_col_count,
-                                
-                                font = dict(family=plot_config['args']['cells']['font']['family'], 
-                                            color=font_color
-                                            ),
-                                format = plot_config['args']['cells']['format'],  #add % sign here
-                                #height = plot_config['args']['cells']['height'],
-                                #fill = plot_config['args']['cells']['height']['fill']
-                                )
-                                )
-                )
-                fig.update_layout(title=plot_config['args']['title'])
-                fig.write_html(plot_config['args']['html_filename'])
-                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-                figs.append(fig)
-            
-            elif plot_config['plot_type'] == "Figure":
-                dfs = []
-                df = None
-                df_counter = 0
-                for path in dataset_config["paths"]:
-                    #print(path)
-                    df = pd.read_csv(path).reset_index()
-                    df['guest_num'] = df['guest_num'].str.split(' ').str[0]
-                    df['guest_num'] = df['guest_num'].astype('float')
-                    dfs.append(df)
-                if len(dfs) == 1:
-                    df = dfs[0]
-                for plot_config in dataset_config['plots']:
-                    if plot_config['plot_type'] == "Figure":
-                        #logic to iterate across multiple paths to use for figure traces
-                        traces = []
-                        for trace in plot_config['args']['data']['traces']:
-                            #print(trace)
-                            df_for_trace = dfs[trace['dataframe_path_position']]
-                            if trace['agg_method'] == 'groupby':
-                                    df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
-                            if trace['plot_type'] == "Bar":
-                                plot_trace = go.Bar(
-                                    name = trace['title'],
-                                    x = df_for_trace[trace['x']], 
-                                    y = df_for_trace[trace['y']], 
-                                    yaxis = trace['yaxis'], 
-                                    offsetgroup = trace['offsetgroup']
-                                )
-                                traces.append(plot_trace)
-                            #print("through trace")
-                        fig = go.Figure(
-                            data = traces,
-                            layout = plot_config['args']['layout']
-                        )
-                        fig.update_layout(title_text=plot_config['args']['title'], barmode=plot_config['args']['barmode'])
-                        fig.write_html(plot_config['args']['html_filename'])
-                        fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-                        figs.append(fig)
-                    else:
-                        print('Plot type not available in automated script at the moment.')
-            print('Plot Complete and Saved.')
-    
+            fig = px.choropleth(df,
+            geojson=zipcodes,  # use with OpenDataDE geojsons
+            #geojson=counties,   # use with plotly geojsons
+            locations=plot_config['args']['locations'],
+            color=plot_config['args']['color'],
+            color_continuous_scale=plot_config['args']['color_continuous_scale'],
+            featureidkey=plot_config['args']['featureidkey'],
+            range_color=plot_config['args']['range_color'],
+            scope=plot_config['args']['scope']
+            )
+            fig.update_layout(title=plot_config['args']['title'])
+            fig.write_html(plot_config['args']['html_filename'])
+            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+            figs.append(fig)
+        
+        elif plot_config['plot_type'] == "Table":
+            if plot_config['args']['agg_method'] == 'groupby':
+                df = df.groupby(plot_config['args']['indexcol'])[plot_config['args']['colnames']].mean().reset_index()
+            index = df[plot_config['args']['indexcol']]
+            vals = []
+            for col_name in plot_config['args']['colnames']:
+                vals.append(df[col_name])
+            val_col_count = len(vals)
+            indvl_vals = [index]
+            for col_name in plot_config['args']['colnames']:
+                indvl_vals.append(df[col_name])
+            indvl_vals_col_count = len(df.columns)
+            font_color = 'black'
+            if plot_config['args']['cells']['font']['color'] == "conditional_red_or_green":
+                if plot_config['args']['cells']['font']['conditional_direction'] == "positive":
+                    font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v < 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
+                elif plot_config['args']['cells']['font']['conditional_direction'] == "negative":
+                    font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v > 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
+            fig = go.Figure(data=go.Table(
+                header = plot_config['args']['header'],
+                cells = dict(values=indvl_vals,
+                            line = plot_config['args']['cells']['line'],
+                            align =  [plot_config['args']['cells']['align']]*indvl_vals_col_count,
+                            
+                            font = dict(family=plot_config['args']['cells']['font']['family'], 
+                                        color=font_color
+                                        ),
+                            format = plot_config['args']['cells']['format'],  #add % sign here
+                            #height = plot_config['args']['cells']['height'],
+                            #fill = plot_config['args']['cells']['height']['fill']
+                            )
+                            )
+            )
+            fig.update_layout(title=plot_config['args']['title'])
+            fig.write_html(plot_config['args']['html_filename'])
+            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+            figs.append(fig)
+        
+        elif plot_config['plot_type'] == "Figure":
+            dfs = []
+            df = None
+            df_counter = 0
+            for path in dataset_config["paths"]:
+                #print(path)
+                df = pd.read_csv(path).reset_index()
+                df['guest_num'] = df['guest_num'].str.split(' ').str[0]
+                df['guest_num'] = df['guest_num'].astype('float')
+                dfs.append(df)
+            if len(dfs) == 1:
+                df = dfs[0]
+            for plot_config in dataset_config['plots']:
+                if plot_config['plot_type'] == "Figure":
+                    #logic to iterate across multiple paths to use for figure traces
+                    traces = []
+                    for trace in plot_config['args']['data']['traces']:
+                        #print(trace)
+                        df_for_trace = dfs[trace['dataframe_path_position']]
+                        if trace['agg_method'] == 'groupby':
+                                df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
+                        if trace['plot_type'] == "Bar":
+                            plot_trace = go.Bar(
+                                name = trace['title'],
+                                x = df_for_trace[trace['x']], 
+                                y = df_for_trace[trace['y']], 
+                                yaxis = trace['yaxis'], 
+                                offsetgroup = trace['offsetgroup']
+                            )
+                            traces.append(plot_trace)
+                        #print("through trace")
+                    fig = go.Figure(
+                        data = traces,
+                        layout = plot_config['args']['layout']
+                    )
+                    fig.update_layout(title_text=plot_config['args']['title'], barmode=plot_config['args']['barmode'])
+                    fig.write_html(plot_config['args']['html_filename'])
+                    fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+                    figs.append(fig)
+                else:
+                    print('Plot type not available in automated script at the moment.')
+        print('Plot Complete and Saved.')
+
     return figs
 
 # Function to Send Email from btd gmail account
