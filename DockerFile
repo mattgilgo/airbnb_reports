@@ -1,7 +1,10 @@
 FROM python:3.10
 
+#ADD test.py /
 ADD plotting_functions_for_cloud.py /
+#ADD testing_wrong_name.py /
 ADD requirements.txt /
+#ADD newsletter_features/letterhead1.PNG /
 
 RUN pip install -r requirements.txt
 
@@ -9,5 +12,7 @@ ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app"
 
 #CMD ["curl", "169.254.170.2\$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
 CMD ["python", "plotting_functions_for_cloud.py"]
+#CMD ["python", "testing_wrongname.py"]
+#CMD ["python", "test.py"]
 
 #docker build -t newsletter-generator .

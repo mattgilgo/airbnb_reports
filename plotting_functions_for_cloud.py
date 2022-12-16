@@ -1,17 +1,34 @@
+print('Importing stuff...')
+
+print('Importing json...')
 import json
+print('Importing pandas...')
 import pandas as pd
+print('Importing fpdf...')
 from fpdf import FPDF
+print('Importing datetime...')
 from datetime import date
+print('Importing plotly.graph_objects...')
 import plotly.graph_objects as go
+print('Importing plotly.express...')
 import plotly.express as px
+print('Importing urllib.request...')
 from urllib.request import urlopen
-import awswrangler as wr
+print('Skipping Importing awswrangler...')
+#import awswrangler as wr
+print('Importing smtplib...')
 import smtplib
+print('Importing pathlib...')
 from pathlib import Path
+print('Importing email.mime.multipart...')
 from email.mime.multipart import MIMEMultipart
+print('Importing email.mime.base...')
 from email.mime.base import MIMEBase
+print('Importing email.mime.text...')
 from email.mime.text import MIMEText
+print('Importing email.utils...')
 from email.utils import COMMASPACE, formatdate
+print('Importing email...')
 from email import encoders
 
 ## What to change when migrating to AWS
@@ -37,8 +54,10 @@ datasets = \
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa",
-                        "html_filename": "html_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.html",
-                        "png_filename": "png_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.png"
+                        #"html_filename": "html_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.html",
+                        "html_filename": "choropleth_occ_rate_config_generated_cloud_100pctrange.html",
+                        #"png_filename": "png_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.png"
+                        "png_filename": "choropleth_occ_rate_config_generated_cloud_100pctrange.png"
                     }
                 }]
     },
@@ -56,8 +75,10 @@ datasets = \
                         "featureidkey": "properties.ZCTA5CE10",
                         "range_color": [-100,100],
                         "scope": "usa",
-                        "html_filename": "html_plots/choropleth_price_config_generated_cloud_100pctrange.html",
-                        "png_filename": "png_plots/choropleth_price_config_generated_cloud_100pctrange.png"
+                        #"html_filename": "html_plots/choropleth_price_config_generated_cloud_100pctrange.html",
+                        "html_filename": "choropleth_price_config_generated_cloud_100pctrange.html",
+                        #"png_filename": "png_plots/choropleth_price_config_generated_cloud_100pctrange.png"
+                        "png_filename": "choropleth_price_config_generated_cloud_100pctrange.png"
                     }
                 }]
     },
@@ -102,8 +123,10 @@ datasets = \
                                 "color":"rgb(245,245,245)"
                             }
                         },
-                        "html_filename": "html_plots/occ_rate_trend_weekly_table_config_generated_cloud.html",
-                        "png_filename": "png_plots/occ_rate_trend_weekly_table_config_generated_cloud.png"
+                        #"html_filename": "html_plots/occ_rate_trend_weekly_table_config_generated_cloud.html",
+                        "html_filename": "occ_rate_trend_weekly_table_config_generated_cloud.html",
+                        #"png_filename": "png_plots/occ_rate_trend_weekly_table_config_generated_cloud.png"
+                        "png_filename": "occ_rate_trend_weekly_table_config_generated_cloud.png"
                     }
                 }]
     },
@@ -148,8 +171,10 @@ datasets = \
                                 "color":"rgb(245,245,245)"
                             }
                         },
-                        "html_filename": "html_plots/price_trend_weekly_table_config_generated_cloud.html",
-                        "png_filename": "png_plots/price_trend_weekly_table_config_generated_cloud.png"
+                        #"html_filename": "html_plots/price_trend_weekly_table_config_generated_cloud.html",
+                        "html_filename": "price_trend_weekly_table_config_generated_cloud.html",
+                        #"png_filename": "png_plots/price_trend_weekly_table_config_generated_cloud.png"
+                        "png_filename": "price_trend_weekly_table_config_generated_cloud.png"
                     }
                 }]
     },
@@ -193,9 +218,11 @@ datasets = \
                         "title": "Median Price and Occupancy by # of Guests",
                         #"location": "", # use for specified zips later
                         #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "html_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.html",
+                        #"html_filename": "html_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.html",
+                        "html_filename": "two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.html",
                         #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png",
+                        #"png_filename": "png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png",
+                        "png_filename": "two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png",
                         "barmode": "group"
                         },
                 }]
@@ -240,9 +267,11 @@ datasets = \
                         "title": "Median Price and Occupancy by # of Guests",
                         #"location": "", # use for specified zips later
                         #"html_filename": "two_dataset_figure_med_total_price_occ_by_guests.html", toggle to use when Total Price for y is true
-                        "html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
+                        #"html_filename": "html_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
+                        "html_filename": "two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.html",
                         #"png_filename": "two_dataset_figure_med_total_price_occ_by_guests.png", toggle to use when Total Price for y is true
-                        "png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
+                        #"png_filename": "png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
+                        "png_filename": "two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png",
                         "barmode": "group"
                         },
                 }]
@@ -298,7 +327,8 @@ datasets = \
 # Interactive Newsletter generating function from https://stackoverflow.com/questions/59868987/plotly-saving-multiple-plots-into-a-single-html
 def combine_plotly_figs_to_html(plotly_figs, html_fname, include_plotlyjs='cdn', 
                                 separator=None, auto_open=False):
-    letterhead_path = "../airbnb_reports/newsletter_features/letterhead1.png"
+    #letterhead_path = "../airbnb_reports/newsletter_features/letterhead1.png"
+    letterhead_path = "letterhead1.png"
     with open(html_fname, 'w') as f:
         f.write("<html>\n")
         f.write('<img src = "' + letterhead_path + '" alt ="cfg">\n')
@@ -331,42 +361,53 @@ def create_title(day, pdf, title: str):
   pdf.ln(5)
 
 
-def full_analytics_report(day=TEST_DATE, filename='reports/full_newsletter_draft_config_generated_cloud.pdf'):
-
+def full_analytics_report(day=TEST_DATE, filename='full_newsletter_draft_config_generated_cloud.pdf'):
+  # old filename was reports/full_newsletter_draft_config_generated_cloud.pdf
   pdf = FPDF() # A4 (210 by 297 mm)
 
   # Header and Title Page
   pdf.add_page()
-  pdf.image("../airbnb_reports/newsletter_features/letterhead1.png", 0, 0, WIDTH)
+  #pdf.image("../airbnb_reports/newsletter_features/letterhead1.png", 0, 0, WIDTH)
+  pdf.image("letterhead1.png", 0, 0, WIDTH)
   title = 'Airbnb Analytics Report - Full Data Summary'
   create_title(day, pdf, title)
   #pdf.image('../airbnb_reports/newsletter_features/line_fig_occ_rate_config_generated.png', x=25, y=90, w=WIDTH-60, h=100)
   #pdf.image('../airbnb_reports/newsletter_features/line_fig_price_config_generated.png', x=25, y=190, w=WIDTH-60, h=100)
-
+  pdf.image('line_fig_occ_rate_config_generated.png', x=25, y=90, w=WIDTH-60, h=100)
+  pdf.image('line_fig_price_config_generated.png', x=25, y=190, w=WIDTH-60, h=100)
+  
   # Page 2
   pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
+  #pdf.image('../airbnb_reports/png_plots/choropleth_occ_rate_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
+  pdf.image(figs[0])
 
   # Page 3
   # Header and Title Page
   pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/choropleth_price_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
+  #pdf.image('../airbnb_reports/png_plots/choropleth_price_config_generated_cloud_100pctrange.png', x=0, y=50, w=WIDTH, h=170)
+  pdf.image(figs[1])
 
   # Page 4
   pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/occ_rate_trend_weekly_table_config_generated_cloud.png', x=0, y=0, w=WIDTH-20, h=130)
-  pdf.image('../airbnb_reports/png_plots/price_trend_weekly_table_config_generated_cloud.png', x=0, y=140, w=WIDTH-20, h=130)
+  #pdf.image('../airbnb_reports/png_plots/occ_rate_trend_weekly_table_config_generated_cloud.png', x=0, y=0, w=WIDTH-20, h=130)
+  #pdf.image('../airbnb_reports/png_plots/price_trend_weekly_table_config_generated_cloud.png', x=0, y=140, w=WIDTH-20, h=130)
+  pdf.image(figs[2])
+  pdf.image(figs[3])
 
   # Page 5
   pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
-  
+  #pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_prices_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  pdf.image(figs[4])
+
   # Page 6
   pdf.add_page()
-  pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
-  
+  #pdf.image('../airbnb_reports/png_plots/two_dataset_figure_med_all_price_changes_occ_by_guests_config_generated_cloud.png', x=5, y=50, w=WIDTH-5, h=150)
+  pdf.image(figs[5])
+
   # Save file
-  pdf.output(filename, 'F')
+  #pdf.output(filename, 'F')
+
+  return pdf
 
 def generate_plots():
     #s3_client = boto3.client('s3')
@@ -387,6 +428,8 @@ def generate_plots():
         use_threads = True,
         dataset = True
     )
+    #df = pd.DataFrame(data = {'woo': ['hoo', 'ooo'], 'yee': ['haw', 'www']})
+    print(df.head(1))
     #df = wr.s3.read_parquet("s3://airbnb-scraper-bucket-0-1-1/data/beta_data_tables/joined_viz_table/part-00000-a2efad80-8ff7-44f7-b8c9-e7c65949744b-c000.snappy.parquet", dataset=True)
 
         # Plotly county geojson
@@ -424,7 +467,7 @@ def generate_plots():
     figs = []
 
     # Generate Plots
-    #for dataset_config in datasets['datasets']:
+    for dataset_config in datasets['datasets']:
     #    dfs = []
     #    df = None
     #    for path in dataset_config["paths"]:
@@ -435,121 +478,121 @@ def generate_plots():
         #if len(dfs) == 1:
         #    df = dfs[0]
         # indent for-loop back here if needed to run locally with csv
-    for plot_config in datasets['datasets']['plots']:
-        #print(plot_config)
-        if plot_config['plot_type'] == "line":
-            print('Creating Line type Plot')
-            fig = px.line(df, 
-            x=plot_config['args']['x'], 
-            y=plot_config['args']['y'], 
-            color=plot_config['args']['color'],
-            labels=plot_config['args']['labels']
-            )
-            fig.update_layout(title=plot_config['args']['title'])
-            fig.write_html(plot_config['args']['html_filename'])
-            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-            figs.append(fig)
+        for plot_config in dataset_config['plots']:
+            #print(plot_config)
+            if plot_config['plot_type'] == "line":
+                print('Creating Line type Plot')
+                fig = px.line(df, 
+                x=plot_config['args']['x'], 
+                y=plot_config['args']['y'], 
+                color=plot_config['args']['color'],
+                labels=plot_config['args']['labels']
+                )
+                fig.update_layout(title=plot_config['args']['title'])
+                fig.write_html(plot_config['args']['html_filename'])
+                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+                figs.append(fig)
 
-        elif plot_config['plot_type'] == "choropleth":
-            print('Creating Choropleth type Plot')
-            fig = px.choropleth(df,
-            geojson=zipcodes,  # use with OpenDataDE geojsons
-            #geojson=counties,   # use with plotly geojsons
-            locations=plot_config['args']['locations'],
-            color=plot_config['args']['color'],
-            color_continuous_scale=plot_config['args']['color_continuous_scale'],
-            featureidkey=plot_config['args']['featureidkey'],
-            range_color=plot_config['args']['range_color'],
-            scope=plot_config['args']['scope']
-            )
-            fig.update_layout(title=plot_config['args']['title'])
-            fig.write_html(plot_config['args']['html_filename'])
-            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-            figs.append(fig)
-        
-        elif plot_config['plot_type'] == "Table":
-            print('Creating Table type Plot')
-            if plot_config['args']['agg_method'] == 'groupby':
-                df = df.groupby(plot_config['args']['indexcol'])[plot_config['args']['colnames']].mean().reset_index()
-            index = df[plot_config['args']['indexcol']]
-            vals = []
-            for col_name in plot_config['args']['colnames']:
-                vals.append(df[col_name])
-            val_col_count = len(vals)
-            indvl_vals = [index]
-            for col_name in plot_config['args']['colnames']:
-                indvl_vals.append(df[col_name])
-            indvl_vals_col_count = len(df.columns)
-            font_color = 'black'
-            if plot_config['args']['cells']['font']['color'] == "conditional_red_or_green":
-                if plot_config['args']['cells']['font']['conditional_direction'] == "positive":
-                    font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v < 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
-                elif plot_config['args']['cells']['font']['conditional_direction'] == "negative":
-                    font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v > 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
-            fig = go.Figure(data=go.Table(
-                header = plot_config['args']['header'],
-                cells = dict(values=indvl_vals,
-                            line = plot_config['args']['cells']['line'],
-                            align =  [plot_config['args']['cells']['align']]*indvl_vals_col_count,
-                            
-                            font = dict(family=plot_config['args']['cells']['font']['family'], 
-                                        color=font_color
-                                        ),
-                            format = plot_config['args']['cells']['format'],  #add % sign here
-                            #height = plot_config['args']['cells']['height'],
-                            #fill = plot_config['args']['cells']['height']['fill']
-                            )
-                            )
-            )
-            fig.update_layout(title=plot_config['args']['title'])
-            fig.write_html(plot_config['args']['html_filename'])
-            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-            figs.append(fig)
-        
-        elif plot_config['plot_type'] == "Figure":
-            print('Creating Figure type Plot')
-            #dfs = []
-            #df = None
-            df_counter = 0
-            #for path in dataset_config["paths"]:
-                #print(path)
-                #df = pd.read_csv(path).reset_index()
-            #    df['guest_num'] = df['guest_num'].str.split(' ').str[0]
-            #    df['guest_num'] = df['guest_num'].astype('float')
-            #    dfs.append(df)
-            #if len(dfs) == 1:
-            #    df = dfs[0]
-            #for plot_config in dataset_config['plots']:
-            #    if plot_config['plot_type'] == "Figure":
-                    #logic to iterate across multiple paths to use for figure traces
-                    # Line tabbed back here for running local
-            traces = []
-            for trace in plot_config['args']['data']['traces']:
-                #print(trace)
-                df_for_trace = df
-                if trace['agg_method'] == 'groupby':
-                        df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
-                if trace['plot_type'] == "Bar":
-                    plot_trace = go.Bar(
-                        name = trace['title'],
-                        x = df_for_trace[trace['x']], 
-                        y = df_for_trace[trace['y']], 
-                        yaxis = trace['yaxis'], 
-                        offsetgroup = trace['offsetgroup']
-                    )
-                    traces.append(plot_trace)
-                #print("through trace")
-            fig = go.Figure(
-                data = traces,
-                layout = plot_config['args']['layout']
-            )
-            fig.update_layout(title_text=plot_config['args']['title'], barmode=plot_config['args']['barmode'])
-            fig.write_html(plot_config['args']['html_filename'])
-            fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
-            figs.append(fig)
-        else:
-            print('Plot type not available in automated script at the moment.')
-        print('Plot Complete and Saved.')
+            elif plot_config['plot_type'] == "choropleth":
+                print('Creating Choropleth type Plot')
+                fig = px.choropleth(df,
+                geojson=zipcodes,  # use with OpenDataDE geojsons
+                #geojson=counties,   # use with plotly geojsons
+                locations=plot_config['args']['locations'],
+                color=plot_config['args']['color'],
+                color_continuous_scale=plot_config['args']['color_continuous_scale'],
+                featureidkey=plot_config['args']['featureidkey'],
+                range_color=plot_config['args']['range_color'],
+                scope=plot_config['args']['scope']
+                )
+                fig.update_layout(title=plot_config['args']['title'])
+                fig.write_html(plot_config['args']['html_filename'])
+                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+                figs.append(fig)
+            
+            elif plot_config['plot_type'] == "Table":
+                print('Creating Table type Plot')
+                if plot_config['args']['agg_method'] == 'groupby':
+                    df = df.groupby(plot_config['args']['indexcol'])[plot_config['args']['colnames']].mean().reset_index()
+                index = df[plot_config['args']['indexcol']]
+                vals = []
+                for col_name in plot_config['args']['colnames']:
+                    vals.append(df[col_name])
+                val_col_count = len(vals)
+                indvl_vals = [index]
+                for col_name in plot_config['args']['colnames']:
+                    indvl_vals.append(df[col_name])
+                indvl_vals_col_count = len(df.columns)
+                font_color = 'black'
+                if plot_config['args']['cells']['font']['color'] == "conditional_red_or_green":
+                    if plot_config['args']['cells']['font']['conditional_direction'] == "positive":
+                        font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v < 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
+                    elif plot_config['args']['cells']['font']['conditional_direction'] == "negative":
+                        font_color = ['rgb(40,40,40)'] +  [['rgb(0,125,0)' if v > 0 else 'rgb(255,0,0)' for v in vals[k]] for k in range(val_col_count)]
+                fig = go.Figure(data=go.Table(
+                    header = plot_config['args']['header'],
+                    cells = dict(values=indvl_vals,
+                                line = plot_config['args']['cells']['line'],
+                                align =  [plot_config['args']['cells']['align']]*indvl_vals_col_count,
+                                
+                                font = dict(family=plot_config['args']['cells']['font']['family'], 
+                                            color=font_color
+                                            ),
+                                format = plot_config['args']['cells']['format'],  #add % sign here
+                                #height = plot_config['args']['cells']['height'],
+                                #fill = plot_config['args']['cells']['height']['fill']
+                                )
+                                )
+                )
+                fig.update_layout(title=plot_config['args']['title'])
+                fig.write_html(plot_config['args']['html_filename'])
+                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+                figs.append(fig)
+            
+            elif plot_config['plot_type'] == "Figure":
+                print('Creating Figure type Plot')
+                #dfs = []
+                #df = None
+                df_counter = 0
+                #for path in dataset_config["paths"]:
+                    #print(path)
+                    #df = pd.read_csv(path).reset_index()
+                #    df['guest_num'] = df['guest_num'].str.split(' ').str[0]
+                #    df['guest_num'] = df['guest_num'].astype('float')
+                #    dfs.append(df)
+                #if len(dfs) == 1:
+                #    df = dfs[0]
+                #for plot_config in dataset_config['plots']:
+                #    if plot_config['plot_type'] == "Figure":
+                        #logic to iterate across multiple paths to use for figure traces
+                        # Line tabbed back here for running local
+                traces = []
+                for trace in plot_config['args']['data']['traces']:
+                    #print(trace)
+                    df_for_trace = df
+                    if trace['agg_method'] == 'groupby':
+                            df_for_trace = df.groupby(trace['x'])[trace['y']].mean().reset_index()   
+                    if trace['plot_type'] == "Bar":
+                        plot_trace = go.Bar(
+                            name = trace['title'],
+                            x = df_for_trace[trace['x']], 
+                            y = df_for_trace[trace['y']], 
+                            yaxis = trace['yaxis'], 
+                            offsetgroup = trace['offsetgroup']
+                        )
+                        traces.append(plot_trace)
+                    #print("through trace")
+                fig = go.Figure(
+                    data = traces,
+                    layout = plot_config['args']['layout']
+                )
+                fig.update_layout(title_text=plot_config['args']['title'], barmode=plot_config['args']['barmode'])
+                fig.write_html(plot_config['args']['html_filename'])
+                fig.write_image(plot_config['args']['png_filename'], engine='kaleido', width=875, height=700)
+                figs.append(fig)
+            else:
+                print('Plot type not available in automated script at the moment.')
+            print('Plot Complete and Saved.')
 
     return figs
 
@@ -609,7 +652,8 @@ if __name__ == "__main__":
 
     # Generate html-based newsletter
     print("Running combine_plotly_figs_to_html function...")
-    combine_plotly_figs_to_html(figs, 'reports/interactive_newsletter.html')
+    #combine_plotly_figs_to_html(figs, 'reports/interactive_newsletter.html')
+    combine_plotly_figs_to_html(figs, 'interactive_newsletter.html')
     print("combine_plotly_figs_to_html complete!")
 
     # Generate image-based newsletter
@@ -623,6 +667,7 @@ if __name__ == "__main__":
     ['george.padavick@gmail.com, justindiemmanuele@gmail.com, mattgilgo@gmail.com'], 
     'Airbnb Newsletter', 
     'Hi there! \r\n\r\nThis report was generated and sent in an email using python. Please see the attached pdf to view the current your customized Airbnb Market Report.\r\n\r\nThank you! :^) ', 
-    files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
+    #files=['reports/full_newsletter_draft_config_generated_cloud.pdf'], 
+    files=['full_newsletter_draft_config_generated_cloud.pdf'], 
     server="smtp.gmail.com")
     print('Email sent!')

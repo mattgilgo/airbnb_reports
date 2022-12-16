@@ -150,3 +150,7 @@ joined_viz_table.csv
 
 #logs
 /log
+
+# test files for aws issues
+testing_wrong_name.py
+test.py
