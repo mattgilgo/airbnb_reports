@@ -15,7 +15,7 @@ import plotly.express as px
 print('Importing urllib.request...')
 from urllib.request import urlopen
 print('Skipping Importing awswrangler...')
-#import awswrangler as wr
+import awswrangler as wr
 print('Importing smtplib...')
 import smtplib
 print('Importing pathlib...')
