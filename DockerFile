@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.8.5
 
 #ADD test.py /
 ADD plotting_functions_for_cloud.py /

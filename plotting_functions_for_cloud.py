@@ -1,6 +1,8 @@
 print('Importing stuff...')
 
-print('Importing json...')
+print('Skipping Importing awswrangler...')
+import awswrangler as wr
+print('Importing json.r..')
 import json
 print('Importing pandas...')
 import pandas as pd
@@ -14,8 +16,6 @@ print('Importing plotly.express...')
 import plotly.express as px
 print('Importing urllib.request...')
 from urllib.request import urlopen
-print('Skipping Importing awswrangler...')
-import awswrangler as wr
 print('Importing smtplib...')
 import smtplib
 print('Importing pathlib...')
