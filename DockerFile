@@ -6,13 +6,14 @@ ADD plotting_functions_for_cloud_v2.py /
 #ADD testing_wrong_name.py /
 ADD requirements.txt /
 ADD newsletter_features/letterhead1.PNG /
+ADD dataframe_csvs/joined_viz_table.csv /
 
 RUN pip install -r requirements.txt
 
 ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app"
 
 #CMD ["curl", "169.254.170.2\$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
-CMD ["python", "plotting_functions_for_cloud_v2.py"]
+CMD ["python", "plotting_functions_for_cloud.py"]
 #CMD ["python", "testing_wrongname.py"]
 #CMD ["python", "test.py"]
 
