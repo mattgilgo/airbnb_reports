@@ -1,8 +1,8 @@
 FROM python:3.8.5
 
 #ADD test.py /
-#ADD plotting_functions_for_cloud.py /
-ADD plotting_functions_for_cloud_v2.py /
+ADD plotting_functions_for_cloud.py /
+#ADD plotting_functions_for_cloud_v2.py /
 #ADD testing_wrong_name.py /
 ADD requirements.txt /
 ADD newsletter_features/letterhead1.PNG /

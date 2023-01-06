@@ -2,8 +2,8 @@ print('Importing stuff...')
 
 print('Importing numpy')
 import numpy as np
-print('Skipping Importing awswrangler...')
-import awswrangler as wr
+#print('Skipping Importing awswrangler...')
+#import awswrangler as wr
 print('Importing json.r..')
 import json
 print('Importing pandas...')
