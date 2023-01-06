@@ -2,8 +2,8 @@ print('Importing stuff...')
 
 print('Importing numpy')
 import numpy as np
-#print('Skipping Importing awswrangler...')
-#import awswrangler as wr
+print('Importing awswrangler...')
+import awswrangler as wr
 print('Importing json.r..')
 import json
 print('Importing pandas...')
@@ -16,7 +16,7 @@ print('Importing plotly.graph_objects...')
 import plotly.graph_objects as go
 print('Importing plotly.express...')
 import plotly.express as px
-print('Importing urllib.request...')
+print('Importing urlopen')
 from urllib.request import urlopen
 print('Importing smtplib...')
 import smtplib
@@ -431,7 +431,7 @@ def generate_plots():
         dataset = True
     )
     """
-    df = pd.read_csv('dataframe_csvs/joined_viz_table.csv')
+    df = pd.read_csv('joined_viz_table.csv')
     #df = pd.DataFrame(data = {'woo': ['hoo', 'ooo'], 'yee': ['haw', 'www']})
     print(df.head(1))
     #df = wr.s3.read_parquet("s3://airbnb-scraper-bucket-0-1-1/data/beta_data_tables/joined_viz_table/part-00000-a2efad80-8ff7-44f7-b8c9-e7c65949744b-c000.snappy.parquet", dataset=True)
